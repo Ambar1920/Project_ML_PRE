@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elevator Pitch Shark Tank | Predicción del Rendimiento Estudiantil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 26, 44, 0.75);
+      --card-border: rgba(99, 102, 241, 0.2);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #06b6d4;
+      --gold: #fbbf24;
+      --danger: #ef4444;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15), transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12), transparent 40%),
+                  var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .header {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      color: var(--gold);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    .video-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+    .actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.4rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99,102,241,0.4);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+    .pitch-structure {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    .pitch-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      transition: all 0.2s ease;
+    }
+    .pitch-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .pitch-card .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .pitch-card .minute-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      background: rgba(6, 182, 212, 0.15);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+    }
+    .pitch-card h3 {
+      font-size: 1.05rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pitch-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="header">
+      <div class="badge"><i class="fa-solid fa-fire"></i> Shark Tank Edition</div>
+      <h1>Elevator Pitch: Predicción del Rendimiento Estudiantil</h1>
+      <p class="subtitle">Guía de 5 minutos estructurada para comités de evaluación, inversores y directivos académicos — Maestría en IA, Educación e Investigación</p>
+    </header>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <video controls autoplay poster="" id="pitchVideo">
+          <source src="shark_tank_pitch.mp4" type="video/mp4">
+          Tu navegador no soporta el elemento de video HTML5.
+        </video>
+      </div>
+
+      <div class="actions-bar">
+        <div>
+          <span style="color: var(--gold); font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Archivo MP4 generado y descargado</span>
+          <p style="color: var(--muted); font-size: 0.85rem;">Resolución 1080p | 2.5 MB | Narración Neural en Español</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <a href="shark_tank_pitch.mp4" download="shark_tank_pitch.mp4" class="btn btn-primary">
+            <i class="fa-solid fa-download"></i> Descargar MP4
+          </a>
+          <a href="../index.html" class="btn btn-secondary">
+            <i class="fa-solid fa-house"></i> Volver a Landing Page
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <section class="pitch-structure">
+      <div class="pitch-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger);"></i> 1. El Problema</h3>
+          <span class="minute-tag">MIN 0 – 1</span>
+        </div>
+        <p>"Actualmente, las instituciones educativas identifican a los estudiantes con bajo rendimiento cuando ya han reprobado las evaluaciones definitivas. Esto imposibilita las intervenciones preventivas, convirtiendo a la educación en un sistema reactivo en lugar de uno proactivo."</p>
+      </div>
+
+      <div class="pitch-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-lightbulb" style="color: var(--accent);"></i> 2. La Solución</h3>
+          <span class="minute-tag">MIN 1 – 2</span>
+        </div>
+        <p>"Para resolver esto, desarrollamos un prototipo inteligente de Machine Learning basado en Random Forest. Nuestro sistema predice tempranamente la condición de Aprobado o Reprobado, logrando métricas de discriminación perfectas (AUC-ROC = 1.0) y un Recall del 100% en la detección de estudiantes en riesgo."</p>
+      </div>
+
+      <div class="pitch-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-database" style="color: var(--gold);"></i> 3. Datos y Metodología</h3>
+          <span class="minute-tag">MIN 2 – 3</span>
+        </div>
+        <p>"El modelo fue entrenado con 5.000 registros del Student Performance Dataset, analizando hábitos de estudio, notas previas y horas de sueño. Aplicamos la metodología CRISP-ML(Q) y manejamos el desbalance natural de los datos (donde solo el 5.3% reprueba) mediante ponderación algorítmica, garantizando que el modelo no ignore a la población vulnerable."</p>
+      </div>
+
+      <div class="pitch-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> 4. Ética y Responsabilidad</h3>
+          <span class="minute-tag">MIN 3 – 4</span>
+        </div>
+        <p>"Este prototipo fue diseñado bajo principios de IA Ética y Responsable. No utilizamos variables demográficas sensibles para evitar sesgos, garantizamos la explicabilidad algorítmica mostrando qué factores pesan más en la decisión, y lo enfocamos estrictamente como una herramienta de soporte pedagógico, nunca punitivo."</p>
+      </div>
+
+      <div class="pitch-card" style="grid-column: 1 / -1;">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-rocket" style="color: var(--primary);"></i> 5. Impacto y Cierre</h3>
+          <span class="minute-tag">MIN 4 – 5</span>
+        </div>
+        <p>"Con este sistema, los docentes pueden orientar tutorías oportunas semanas antes de los exámenes. El proyecto está totalmente funcional, desplegado en Streamlit Cloud, con código abierto en GitHub y documentado bajo estándares de reproducibilidad. Muchas gracias."</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>Proyecto Final de Machine Learning | Maestría en IA, Educación e Investigación</p>
+      <p style="margin-top: 0.25rem;">Repositorio: <a href="https://github.com/Ambar1920/Project_ML_PRE.git" style="color: var(--accent); text-decoration: none;" target="_blank">github.com/Ambar1920/Project_ML_PRE</a> | App: <a href="https://Project_ML_PRE.streamlit.app" style="color: var(--accent); text-decoration: none;" target="_blank">Project_ML_PRE.streamlit.app</a></p>
+    </footer>
+  </div>
+
+</body>
+</html>
+
