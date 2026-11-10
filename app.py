@@ -119,7 +119,7 @@ st.markdown("""
     <p>Sistema predictivo y prescriptivo de alerta temprana para identificar el riesgo de reprobación escolar y orientar intervenciones pedagógicas oportunas basadas en evidencia.</p>
     <div class="badge-container">
         <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" style="text-decoration:none;"><span class="badge-pill" style="background:#24292e;">📂 Repositorio GitHub</span></a>
-        <a href="https://Project_ML_PRE.streamlit.app" target="_blank" style="text-decoration:none;"><span class="badge-pill" style="background:#ef4444;">🚀 Streamlit App</span></a>
+        <a href="https://projectmlpre.streamlit.app/" target="_blank" style="text-decoration:none;"><span class="badge-pill" style="background:#ef4444;">🚀 Streamlit App</span></a>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -555,7 +555,7 @@ st.markdown("""
     <strong>Maestría en IA, Educación e Investigación</strong> | Curso: Machine Learning<br>
     Proyecto Final: <em>Predicción del Rendimiento Estudiantil mediante Machine Learning</em><br>
     Repositorio: <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" style="color: #2563eb;">github.com/Ambar1920/Project_ML_PRE</a> | 
-    Aplicación: <a href="https://Project_ML_PRE.streamlit.app" target="_blank" style="color: #2563eb;">Project_ML_PRE.streamlit.app</a>
+    Aplicación: <a href="https://projectmlpre.streamlit.app/" target="_blank" style="color: #2563eb;">projectmlpre.streamlit.app</a>
 </div>
 """, unsafe_allow_html=True)
 
