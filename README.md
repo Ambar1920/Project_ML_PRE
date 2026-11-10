@@ -1,7 +1,7 @@
 # 🎓 Proyecto Final: Predicción del Rendimiento Estudiantil mediante Machine Learning
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?logo=streamlit&logoColor=white)](https://Project_ML_PRE.streamlit.app)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?logo=streamlit&logoColor=white)](https://projectmlpre.streamlit.app/)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.3%2B-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Pandas](https://img.shields.io/badge/Pandas-2.0%2B-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
 [![NumPy](https://img.shields.io/badge/NumPy-1.24%2B-013243?logo=numpy&logoColor=white)](https://numpy.org/)
@@ -21,7 +21,7 @@
 | Recurso | Enlace de Acceso | Descripción |
 |---|---|---|
 | **📂 Repositorio Oficial (GitHub)** | [https://github.com/Ambar1920/Project_ML_PRE.git](https://github.com/Ambar1920/Project_ML_PRE.git) | Código fuente, notebook, datos y documentación técnica |
-| **🚀 Aplicación Web (Streamlit Cloud)** | [https://Project_ML_PRE.streamlit.app](https://Project_ML_PRE.streamlit.app) | Prototipo interactivo con comparativa analítica y simulador |
+| **🚀 Aplicación Web (Streamlit Cloud)** | [https://Project_ML_PRE.streamlit.app](https://projectmlpre.streamlit.app/) | Prototipo interactivo con comparativa analítica y simulador |
 | **🌐 Landing Page (GitHub Pages)** | [https://Ambar1920.github.io/Project_ML_PRE/](https://Ambar1920.github.io/Project_ML_PRE/) | Presentación ejecutiva del proyecto con arquitectura en capas |
 | **🎬 Video de Lanzamiento (Brag Skill)** | [brag-output/interactive_video.html](brag-output/interactive_video.html) | Presentación interactiva en español con narración por voz |
 
