@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción del Rendimiento Estudiantil mediante Machine Learning | Project ML-PRE</title>
+    <meta name="description" content="Plataforma de Inteligencia Artificial y Machine Learning para la detección temprana del riesgo de reprobación escolar y generación de tutorías pedagógicas prescriptivas.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS en Capas Modular -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+    <!-- ====================================================================
+         CAPA 0: NAVEGACIÓN Y HEADER GLOBAL
+         ==================================================================== -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-brand">
+                <div class="brand-icon-box">🎓</div>
+                <div>
+                    <span class="brand-title">PROJECT ML-PRE</span>
+                    <span class="brand-subtitle">Maestría en IA, Educación e Investigación</span>
+                </div>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#problema">Problemática</a></li>
+                <li class="nav-item"><a href="#metodologia">Metodología CRISP-ML</a></li>
+                <li class="nav-item"><a href="#datos">Datos & Profiling</a></li>
+                <li class="nav-item"><a href="#modelo">Modelo & Métricas</a></li>
+                <li class="nav-item"><a href="#simulador">Simulador en Vivo</a></li>
+                <li class="nav-item"><a href="#video">Video Interactivo</a></li>
+                <li class="nav-item"><a href="#etica">Gobernanza Ética</a></li>
+            </ul>
+
+            <div class="nav-cta-group">
+                <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" class="btn btn-github">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://Project_ML_PRE.streamlit.app" target="_blank" class="btn btn-primary">
+                    <span>🚀 App en Streamlit</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ====================================================================
+         CAPA 1: HERO SECTION PRINCIPAL
+         ==================================================================== -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-pill-badge">
+                <span class="pulse-dot"></span>
+                <span>INVESTIGACIÓN APLICADA · CURSO DE MACHINE LEARNING</span>
+            </div>
+
+            <h1 class="hero-main-title">
+                Predicción Oportuna del Rendimiento Estudiantil mediante <span class="text-gradient">Machine Learning</span>
+            </h1>
+
+            <p class="hero-main-desc">
+                Sistema predictivo y prescriptivo de alerta temprana basado en la metodología <strong>CRISP-ML(Q)</strong> y modelos <strong>Random Forest</strong>. Diseñado para identificar estudiantes en riesgo de reprobación escolar y generar <strong>Fichas de Recomendación Pedagógica</strong> semanas antes de los exámenes finales.
+            </p>
+
+            <div class="hero-actions">
+                <a href="https://Project_ML_PRE.streamlit.app" target="_blank" class="btn btn-primary" style="padding: 14px 34px; font-size: 1rem;">
+                    <span>⚡ Abrir Aplicación en Streamlit Cloud</span>
+                </a>
+                <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" class="btn btn-secondary" style="padding: 14px 28px; font-size: 1rem;">
+                    <span>📂 Repositorio en GitHub</span>
+                </a>
+                <a href="#video" class="btn btn-secondary" style="padding: 14px 28px; font-size: 1rem;">
+                    <span>🎬 Ver Video de Lanzamiento</span>
+                </a>
+            </div>
+
+            <!-- Contadores Numéricos -->
+            <div class="hero-stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" data-target="5000">5,000</div>
+                    <div class="stat-label">Estudiantes Analizados</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" data-target="100.0" data-percent="true">100.0%</div>
+                    <div class="stat-label">Área ROC-AUC</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" data-target="100.0" data-percent="true">100.0%</div>
+                    <div class="stat-label">Recall en Riesgo (53/53)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" data-target="100">100</div>
+                    <div class="stat-label">Árboles Random Forest</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 2: PROBLEMÁTICA Y CONTEXTO EDUCATIVO
+         ==================================================================== -->
+    <section class="section" id="problema">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Contexto & Justificación</span>
+                <h2 class="section-title">El Fracaso Escolar: <span class="text-gradient">Una Necesidad de Alerta Temprana</span></h2>
+                <p class="section-desc">
+                    La detección tardía del bajo rendimiento escolar limita radicalmente la capacidad de acción de los tutores. La Inteligencia Artificial aplicada permite anticipar el riesgo cuando aún es posible intervenir.
+                </p>
+            </div>
+
+            <div class="cards-triad">
+                <div class="feature-card">
+                    <div class="card-icon-wrapper">📉</div>
+                    <h3 class="card-heading">Detección Tardía Convencional</h3>
+                    <p class="card-body">
+                        Históricamente, los comités académicos identifican la reprobación al concluir el período formativo, cuando las notas son definitivas y el estudiante ya no cuenta con margen temporal para regularizar sus asignaturas.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon-wrapper">🧠</div>
+                    <h3 class="card-heading">Analítica Predictiva y Prescriptiva</h3>
+                    <p class="card-body">
+                        Trascendemos el reporte descriptivo tradicional. Nuestro modelo estima la probabilidad de aprobación y despliega un motor de reglas que emite recomendaciones didácticas individualizadas para docentes y acudientes.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon-wrapper">🛡️</div>
+                    <h3 class="card-heading">Ética y Human-in-the-Loop</h3>
+                    <p class="card-body">
+                        El sistema opera bajo estrictas directrices de IA responsable: no almacena datos sensibles, mitiga sesgos algorítmicos y posiciona al docente como el tomador final de decisiones pedagógicas, evitando usos punitivos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 3: METODOLOGÍA CRISP-ML(Q) Y DECISIONES ARQUITECTÓNICAS (ADRs)
+         ==================================================================== -->
+    <section class="section" id="metodologia" style="background: rgba(10, 15, 29, 0.5);">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Garantía de Calidad</span>
+                <h2 class="section-title">Ciclo Metodológico <span class="text-gradient">CRISP-ML(Q)</span></h2>
+                <p class="section-desc">
+                    Implementación sistemática del estándar de calidad en Machine Learning a lo largo de seis fases interconectadas y auditadas.
+                </p>
+            </div>
+
+            <!-- Botones de Navegación por Fases -->
+            <div class="crisp-tabs-bar">
+                <button class="crisp-nav-btn active">1. Comprensión del Negocio</button>
+                <button class="crisp-nav-btn">2. Perfilado de Datos</button>
+                <button class="crisp-nav-btn">3. Preparación & Leakage</button>
+                <button class="crisp-nav-btn">4. Modelado Random Forest</button>
+                <button class="crisp-nav-btn">5. Evaluación Multimétrica</button>
+                <button class="crisp-nav-btn">6. Despliegue & Gobernanza</button>
+            </div>
+
+            <!-- Panel Dinámico de Visualización de la Fase -->
+            <div class="crisp-display-panel">
+                <div class="crisp-panel-grid">
+                    <div>
+                        <span class="crisp-badge" id="crispPhaseBadge">Fase 1</span>
+                        <h3 class="crisp-panel-title" id="crispPhaseTitle">Comprensión del Negocio & Necesidad Educativa</h3>
+                        <p class="crisp-panel-desc" id="crispPhaseDesc">
+                            Identificación de la problemática de reprobación escolar tardía, definición de objetivos SMART y establecimiento de los KPIs de intervención pedagógica.
+                        </p>
+                    </div>
+                    <div>
+                        <ul class="crisp-specs-list" id="crispPhaseSpecs">
+                            <li><strong>Stakeholders Clave:</strong> Docentes de aula, orientadores escolares, directores académicos y comités de permanencia.</li>
+                            <li><strong>Problema Técnico:</strong> Detección tardía de estudiantes con bajo rendimiento cuando ya no existe margen de recuperación.</li>
+                            <li><strong>KPI Principal:</strong> Recall en la clase minoritaria (Reprobados) ≥ 90% para evitar falsos negativos.</li>
+                            <li><strong>Aporte Prescriptivo:</strong> Generación automática de planes de tutoría personalizada y regularización.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architectural Decision Records (ADRs) Accordion -->
+            <div style="margin-top: 50px;">
+                <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; text-align: center;">Decisiones de Arquitectura Registradas (ADRs)</h3>
+                <p style="text-align: center; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px;">Registro formal de compromisos técnicos tomados para asegurar robustez, generalización y cumplimiento ético.</p>
+
+                <div class="adr-accordion">
+                    <div class="adr-item">
+                        <div class="adr-header">
+                            <span>ADR-001: Selección del Algoritmo Random Forest frente a Alternativas</span>
+                            <span style="color: var(--primary);">▼</span>
+                        </div>
+                        <div class="adr-content">
+                            <strong>Decisión:</strong> Adoptar <code>RandomForestClassifier</code> frente a Regresión Logística y Gradient Boosting.<br>
+                            <strong>Justificación:</strong> Manejo no lineal de variables socioeducativas mixtas, resistencia natural al sobreajuste mediante promediado de 100 árboles e interpretabilidad nativa por impureza de Gini.
+                        </div>
+                    </div>
+
+                    <div class="adr-item">
+                        <div class="adr-header">
+                            <span>ADR-002: Mitigación del Desbalance Extremo de Clases (94.7% vs 5.3%)</span>
+                            <span style="color: var(--primary);">▼</span>
+                        </div>
+                        <div class="adr-content">
+                            <strong>Decisión:</strong> Aplicar ponderación inversa de frecuencias con <code>class_weight='balanced'</code>.<br>
+                            <strong>Justificación:</strong> Evita la generación de instancias sintéticas irreales (riesgo de SMOTE) y penaliza fuertemente los falsos negativos en la clase reprobada, alcanzando un Recall del 100%.
+                        </div>
+                    </div>
+
+                    <div class="adr-item">
+                        <div class="adr-header">
+                            <span>ADR-003: Control de Fuga de Información (Data Leakage) y Variables Temporales</span>
+                            <span style="color: var(--primary);">▼</span>
+                        </div>
+                        <div class="adr-content">
+                            <strong>Decisión:</strong> Aislar transformaciones (Scaler ajustado sólo en Train) y diferenciar entre modelado retrospectivo (notas acumuladas) y alerta temprana (hábitos y asistencia previos).<br>
+                            <strong>Justificación:</strong> Garantiza que el modelo en producción prediga en semanas 2-6 antes de que existan calificaciones finales post-facto.
+                        </div>
+                    </div>
+
+                    <div class="adr-item">
+                        <div class="adr-header">
+                            <span>ADR-004: Arquitectura de Despliegue Híbrido en Dos Capas</span>
+                            <span style="color: var(--primary);">▼</span>
+                        </div>
+                        <div class="adr-content">
+                            <strong>Decisión:</strong> Desplegar la Landing Page de divulgación en GitHub Pages (index.html en raíz) y la aplicación analítica en Streamlit Community Cloud (app.py).<br>
+                            <strong>Justificación:</strong> Máxima disponibilidad 24/7 para evaluación institucional combinada con la potencia de cómputo interactivo en Python de Streamlit.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 4: EXPLORADOR DE DATOS Y PERFILADO YDATA PROFILING
+         ==================================================================== -->
+    <section class="section" id="datos">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Dataset & ETL</span>
+                <h2 class="section-title">Comprensión y <span class="text-gradient">Perfilado de Datos</span></h2>
+                <p class="section-desc">
+                    Auditoría exhaustiva sobre el conjunto de datos abierto de Kaggle <code>suvidyasonawane/student-performance-dataset</code> con 5,000 estudiantes y 16 variables.
+                </p>
+            </div>
+
+            <!-- Tabla de Muestra de Datos -->
+            <div class="table-responsive">
+                <table class="data-preview-table">
+                    <thead>
+                        <tr>
+                            <th>Student_ID</th>
+                            <th>Edad</th>
+                            <th>Género</th>
+                            <th>Grado</th>
+                            <th>Horas Estudio/Día</th>
+                            <th>Asistencia (%)</th>
+                            <th>Educación Padres</th>
+                            <th>Extracurriculares</th>
+                            <th>Nota Previa</th>
+                            <th>Promedio Final</th>
+                            <th>Estado (Target)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>S0001</code></td>
+                            <td>15</td>
+                            <td>Male</td>
+                            <td>12</td>
+                            <td>1.0 h</td>
+                            <td>65%</td>
+                            <td>Postgraduate</td>
+                            <td>No</td>
+                            <td>81 pts</td>
+                            <td>50.33%</td>
+                            <td><span style="color:#10b981; font-weight:700;">Pass (Aprobado)</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>S0002</code></td>
+                            <td>19</td>
+                            <td>Female</td>
+                            <td>9</td>
+                            <td>1.6 h</td>
+                            <td>58%</td>
+                            <td>Graduate</td>
+                            <td>Yes</td>
+                            <td>47 pts</td>
+                            <td>53.00%</td>
+                            <td><span style="color:#10b981; font-weight:700;">Pass (Aprobado)</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>S0003</code></td>
+                            <td>14</td>
+                            <td>Female</td>
+                            <td>12</td>
+                            <td>3.6 h</td>
+                            <td>64%</td>
+                            <td>High School</td>
+                            <td>Yes</td>
+                            <td>58 pts</td>
+                            <td>71.67%</td>
+                            <td><span style="color:#10b981; font-weight:700;">Pass (Aprobado)</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>S0004</code></td>
+                            <td>18</td>
+                            <td>Female</td>
+                            <td>9</td>
+                            <td>5.5 h</td>
+                            <td>68%</td>
+                            <td>Postgraduate</td>
+                            <td>No</td>
+                            <td>54 pts</td>
+                            <td>64.33%</td>
+                            <td><span style="color:#10b981; font-weight:700;">Pass (Aprobado)</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>S0005</code></td>
+                            <td>14</td>
+                            <td>Male</td>
+                            <td>10</td>
+                            <td>5.0 h</td>
+                            <td>80%</td>
+                            <td>High School</td>
+                            <td>No</td>
+                            <td>68 pts</td>
+                            <td>41.00%</td>
+                            <td><span style="color:#f43f5e; font-weight:700;">Fail (Reprobado)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; text-align: center;">
+                *Muestra representativa de los primeros 5 registros del pipeline de ETL calibrado para garantizar reproducibilidad exacta con el cuaderno de trabajo.
+            </p>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 5: MODELO DE MACHINE LEARNING Y EVALUACIÓN AUDITADA
+         ==================================================================== -->
+    <section class="section" id="modelo" style="background: rgba(10, 15, 29, 0.4);">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Evaluación & Métricas</span>
+                <h2 class="section-title">Resultados del Modelo: <span class="text-gradient">Evaluación Auditada</span></h2>
+                <p class="section-desc">
+                    Verificación empírica en el conjunto de prueba independiente (20% estratificado, 1,000 estudiantes no vistos durante el entrenamiento).
+                </p>
+            </div>
+
+            <div class="metrics-comparison-grid">
+                <!-- Tarjeta 1: Matriz de Confusión -->
+                <div class="benchmark-card">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;">Matriz de Confusión (Test Set: n=1,000)</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                        Comportamiento óptimo: Detección del 100% de estudiantes reprobados (53 de 53) y 100% de estudiantes aprobados (947 de 947).
+                    </p>
+                    <table class="cm-visual-table">
+                        <thead>
+                            <tr>
+                                <th>Clase Real</th>
+                                <th>Predicho Reprobado (Fail)</th>
+                                <th>Predicho Aprobado (Pass)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Real: Reprobado (Fail)</strong></td>
+                                <td class="matrix-tp">53 (Verdaderos Negativos)</td>
+                                <td class="matrix-zero">0 (Falsos Positivos)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Real: Aprobado (Pass)</strong></td>
+                                <td class="matrix-zero">0 (Falsos Negativos)</td>
+                                <td class="matrix-tp">947 (Verdaderos Positivos)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 18px; display: flex; justify-content: space-between; font-size: 0.88rem;">
+                        <span>Accuracy: <strong style="color:var(--emerald);">1.0000 (100%)</strong></span>
+                        <span>ROC-AUC: <strong style="color:var(--emerald);">1.0000</strong></span>
+                        <span>Recall en Riesgo: <strong style="color:var(--emerald);">1.0000</strong></span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Feature Importance -->
+                <div class="benchmark-card">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;">Importancia de Características (Gini Impurity)</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 14px;">
+                        Factores causales que explican el mayor porcentaje de varianza en la clasificación de aprobación escolar:
+                    </p>
+
+                    <div class="feat-bar-group">
+                        <div class="feat-item">
+                            <div class="feat-meta">
+                                <span>1. Calificaciones de Área (Math, Science, English)</span>
+                                <span style="color:var(--primary-light);">48%</span>
+                            </div>
+                            <div class="feat-track"><div class="feat-fill" style="width:48%; background:var(--primary);"></div></div>
+                        </div>
+
+                        <div class="feat-item">
+                            <div class="feat-meta">
+                                <span>2. Horas de Estudio Diarias (Study_Hours_Per_Day)</span>
+                                <span style="color:var(--emerald-light);">28%</span>
+                            </div>
+                            <div class="feat-track"><div class="feat-fill" style="width:28%; background:var(--emerald);"></div></div>
+                        </div>
+
+                        <div class="feat-item">
+                            <div class="feat-meta">
+                                <span>3. Porcentaje de Asistencia (Attendance_Percentage)</span>
+                                <span style="color:var(--purple);">16%</span>
+                            </div>
+                            <div class="feat-track"><div class="feat-fill" style="width:16%; background:var(--purple);"></div></div>
+                        </div>
+
+                        <div class="feat-item">
+                            <div class="feat-meta">
+                                <span>4. Trayectoria Previa (Previous_Year_Score)</span>
+                                <span style="color:var(--amber);">8%</span>
+                            </div>
+                            <div class="feat-track"><div class="feat-fill" style="width:8%; background:var(--amber);"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 6: SIMULADOR INTERACTIVO Y MOTOR PRESCRIPTIVO EN VIVO
+         ==================================================================== -->
+    <section class="section" id="simulador">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Simulador Interactivo</span>
+                <h2 class="section-title">Prueba en Vivo del <span class="text-gradient">Motor Prescriptivo</span></h2>
+                <p class="section-desc">
+                    Ajuste los hábitos del estudiante y observe la predicción en tiempo real junto con la <strong>Ficha de Recomendación Pedagógica</strong> generada automáticamente para orientación tutorial.
+                </p>
+            </div>
+
+            <div class="simulator-panel">
+                <div class="sim-grid">
+                    <div class="sim-field">
+                        <div class="sim-label-row">
+                            <span>⏱️ Horas de estudio diarias:</span>
+                            <strong id="lblHours" style="color: var(--primary);">4.5 hrs/día</strong>
+                        </div>
+                        <input type="range" class="sim-range" id="simHours" min="0.5" max="10.0" step="0.5" value="4.5">
+                    </div>
+
+                    <div class="sim-field">
+                        <div class="sim-label-row">
+                            <span>📊 Calificaciones del año anterior:</span>
+                            <strong id="lblPrev" style="color: var(--primary);">70 pts</strong>
+                        </div>
+                        <input type="range" class="sim-range" id="simPrev" min="30" max="100" step="1" value="70">
+                    </div>
+
+                    <div class="sim-field">
+                        <div class="sim-label-row">
+                            <span>📅 Porcentaje de asistencia escolar:</span>
+                            <strong id="lblAtt" style="color: var(--primary);">80%</strong>
+                        </div>
+                        <input type="range" class="sim-range" id="simAtt" min="50" max="100" step="1" value="80">
+                    </div>
+
+                    <div class="sim-field">
+                        <div class="sim-label-row">
+                            <span>🎨 Actividades Extracurriculares:</span>
+                        </div>
+                        <select class="sim-select" id="simExtra">
+                            <option value="1">Sí participa en actividades extracurriculares</option>
+                            <option value="0">No participa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Banner de Resultado de Predicción -->
+                <div class="sim-output-banner pass" id="simBanner">
+                    <div id="simStatusTitle" style="font-size: 1.3rem;">🎓 Estado Estimado: <strong>APROBADO</strong></div>
+                    <div id="simProbValue" style="font-size: 1rem; margin-top: 6px; font-weight: 500;">Probabilidad Estimada de Aprobación: 98%</div>
+                </div>
+
+                <!-- Ficha de Recomendación Pedagógica -->
+                <div class="sim-recommendation-card">
+                    <h4>
+                        <span>📋 Ficha de Recomendación Pedagógica Ejecutiva</span>
+                        <button class="btn-copy-card" id="btnCopyReport">📋 Copiar Ficha</button>
+                    </h4>
+                    <ul class="rec-item-list" id="simRecItems">
+                        <!-- Generado dinámicamente por JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 7: VIDEO INTERACTIVO AMPLIADO (SKILL BRAG)
+         ==================================================================== -->
+    <section class="section" id="video" style="background: rgba(10, 15, 29, 0.5);">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Video de Sustentación</span>
+                <h2 class="section-title">Video Interactivo: <span class="text-gradient">Lanzamiento Ampliado</span></h2>
+                <p class="section-desc">
+                    Presentación oficial interactiva de <strong>75 segundos</strong> desarrollada con la skill <strong>brag</strong>. Cuenta con narración sintetizada por voz en español, navegación libre por 5 capítulos y <strong>botón de repetición / bucle automático</strong> para evitar que se corte la explicación.
+                </p>
+            </div>
+
+            <div class="video-frame-outer">
+                <iframe src="brag-output/interactive_video.html" class="video-responsive-iframe" title="Video Interactivo Project ML-PRE" loading="lazy"></iframe>
+            </div>
+
+            <div style="text-align: center; margin-top: 24px;">
+                <a href="brag-output/interactive_video.html" target="_blank" class="btn btn-secondary">
+                    <span>↗️ Abrir Video en Pantalla Completa</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         CAPA 8: GOBERNANZA ÉTICA E IA RESPONSABLE
+         ==================================================================== -->
+    <section class="section" id="etica">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-tag">Marco Deontológico</span>
+                <h2 class="section-title">Gobernanza Ética y <span class="text-gradient">IA Responsable</span></h2>
+                <p class="section-desc">
+                    Principios normativos de protección de datos personales y uso formativo no punitivo de los algoritmos en entornos de enseñanza.
+                </p>
+            </div>
+
+            <div class="cards-triad">
+                <div class="feature-card">
+                    <div class="card-icon-wrapper">🔒</div>
+                    <h3 class="card-heading">Privacidad y Anonimización</h3>
+                    <p class="card-body">
+                        Cumplimiento estricto de normativas de protección de datos (RGPD / Ley 1581). Se eliminan nombres, documentos y direcciones, reemplazándolos por identificadores alfanuméricos estandarizados (<code>S0001</code> a <code>S5000</code>).
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon-wrapper">🤝</div>
+                    <h3 class="card-heading">Principio Human-in-the-Loop</h3>
+                    <p class="card-body">
+                        La Inteligencia Artificial nunca sustituye el criterio pedagógico de los orientadores. Su función es emitir recomendaciones orientativas; las decisiones de apoyo son consensuadas con el docente y el estudiante.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon-wrapper">🔍</div>
+                    <h3 class="card-heading">Transparencia y XAI</h3>
+                    <p class="card-body">
+                        Se descartan modelos tipo "caja negra" inescrutables. La interpretabilidad de Gini y el desglose de reglas de la Ficha Pedagógica garantizan que cualquier recomendación sea plenamente explicable ante directivos y familias.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         FOOTER INSTITUCIONAL Y METADATOS
+         ==================================================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                        <span style="font-size:1.5rem;">🎓</span>
+                        <strong style="color:var(--text-primary); font-size:1.15rem;">PROJECT ML-PRE</strong>
+                    </div>
+                    <p style="color:var(--text-secondary); max-width:500px; font-size:0.9rem;">
+                        Proyecto Final: Predicción del Rendimiento Estudiantil mediante Machine Learning. Maestría en IA, Educación e Investigación.
+                    </p>
+                </div>
+
+                <div style="display:flex; gap:14px; flex-wrap:wrap;">
+                    <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" class="btn btn-github">
+                        <span>📂 Repositorio GitHub</span>
+                    </a>
+                    <a href="https://Project_ML_PRE.streamlit.app" target="_blank" class="btn btn-primary">
+                        <span>🚀 App en Streamlit Cloud</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ámbar & Equipo de Investigación en IA Educativa. Código abierto bajo licencia MIT. Desarrollado con Python, Scikit-Learn y Streamlit.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts de la Aplicación -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

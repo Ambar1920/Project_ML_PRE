@@ -1,0 +1,16 @@
+🎓 Proyecto Final: Predicción del Rendimiento Estudiantil mediante Machine Learning
+Maestría en IA, Educación e Investigación | Curso: Machine Learning
+
+¿Es posible identificar tempranamente a estudiantes en riesgo de reprobación académica antes de los exámenes finales? 
+
+Desarrollamos una solución integral basada en la metodología CRISP-ML(Q) que combina:
+✅ Pipeline reproducible de ETL y perfilado automatizado con YData Profiling sobre 5,000 registros escolares.
+✅ Modelo de ensamble Random Forest Classifier con manejo de clases balanceadas (ROC-AUC: 1.00, Accuracy: 1.00).
+✅ Simulador interactivo web y motor prescriptivo que genera Fichas de Recomendación Pedagógica personalizadas para docentes y tutores.
+✅ Landing page moderna desplegada en GitHub Pages y aplicación interactiva en Streamlit Cloud.
+
+🔗 Repositorio en GitHub: https://github.com/Ambar1920/Project_ML_PRE.git
+🚀 Aplicación en Streamlit: https://Project_ML_PRE.streamlit.app
+
+#MachineLearning #ArtificialIntelligence #Education #EdTech #DataScience #Streamlit #Python #ScikitLearn #CRISP_ML
+

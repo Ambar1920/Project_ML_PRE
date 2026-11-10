@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Interactivo Ampliado: Predicción del Rendimiento Estudiantil (ML)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-canvas: #070a13;
+            --card-bg: rgba(17, 24, 39, 0.9);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.3);
+            --rose: #f43f5e;
+            --amber: #f59e0b;
+            --purple: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .video-player-container {
+            width: 100%;
+            max-width: 1050px;
+            background: linear-gradient(145deg, #0b1120 0%, #0f172a 100%);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 45px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Bar */
+        .video-header {
+            padding: 16px 26px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 10;
+        }
+
+        .brand-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--emerald);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .chapter-badge {
+            font-size: 13px;
+            color: #93c5fd;
+            background: rgba(59, 130, 246, 0.18);
+            padding: 5px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Stage Canvas */
+        .stage-area {
+            position: relative;
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 30px;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.08), transparent 60%);
+        }
+
+        .scene {
+            position: absolute;
+            inset: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(12px) scale(0.97);
+            pointer-events: none;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scene.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .scene-tag {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 6px 18px;
+            border-radius: 50px;
+            margin-bottom: 18px;
+            display: inline-block;
+        }
+
+        .scene-tag.danger {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--rose);
+            border: 1px solid rgba(244, 63, 94, 0.35);
+        }
+
+        .scene-tag.primary {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+        }
+
+        .scene-tag.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .scene-tag.purple {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--purple);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+        }
+
+        .scene-title {
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            max-width: 850px;
+            color: #ffffff;
+        }
+
+        .scene-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 720px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Componentes de apoyo visual */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 820px;
+            margin-top: 10px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .info-card .card-val {
+            font-size: 26px;
+            font-weight: 800;
+            color: #60a5fa;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 6px;
+        }
+
+        .info-card .card-lbl {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Mini simulador embebido en escena 4 */
+        .interactive-sim-mini {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 16px;
+            padding: 22px 28px;
+            width: 100%;
+            max-width: 680px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .sim-input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .sim-slider {
+            width: 50%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .sim-out-badge {
+            margin-top: 14px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        /* Overlay de Fin con Botón Repetir */
+        .overlay-end {
+            position: absolute;
+            inset: 0;
+            background: rgba(7, 10, 19, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .overlay-end.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .end-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .end-sub {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 580px;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .end-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .btn-action.repeat {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-action.repeat:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .btn-action.github {
+            background: #1e293b;
+            color: white;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-action.github:hover {
+            background: #0f172a;
+            transform: scale(1.05);
+        }
+
+        .btn-action.streamlit {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-action.streamlit:hover {
+            transform: scale(1.05);
+        }
+
+        /* Subtitle Bar */
+        .caption-display {
+            padding: 14px 28px;
+            background: rgba(10, 15, 28, 0.9);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #e2e8f0;
+            min-height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+            z-index: 10;
+        }
+
+        /* Controls Toolbar */
+        .video-controls {
+            padding: 14px 26px;
+            background: #090e1a;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 10;
+        }
+
+        .btn-ctrl {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-ctrl:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 18px var(--primary-glow);
+        }
+
+        .btn-secondary-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-secondary-ctrl:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary-ctrl.active {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--emerald);
+            color: var(--emerald);
+        }
+
+        .timeline-track {
+            flex: 1;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .timeline-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #60a5fa 100%);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-box {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            min-width: 90px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* Chapter Navigation Tabs */
+        .chapter-pills-bar {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1050px;
+            width: 100%;
+        }
+
+        .pill-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .pill-tab.active, .pill-tab:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        @media (max-width: 768px) {
+            .scene-title { font-size: 22px; }
+            .scene-desc { font-size: 14px; }
+            .grid-cards { grid-template-columns: 1fr; }
+            .time-box { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-player-container" id="videoBox">
+        <!-- Top Meta Header -->
+        <div class="video-header">
+            <div class="brand-meta">
+                <span class="live-dot"></span>
+                <span>PROJECT ML-PRE | PRESENTACIÓN OFICIAL DE INVESTIGACIÓN</span>
+            </div>
+            <div class="chapter-badge" id="chapBadge">
+                <span>📌</span> <span id="chapText">Capítulo 1: La Problemática Educativa</span>
+            </div>
+        </div>
+
+        <!-- Stage Area (Scenes) -->
+        <div class="stage-area">
+            <!-- Scene 1: Problem (0 - 15s) -->
+            <div class="scene active" id="sc1">
+                <span class="scene-tag danger">Problemática Escolar & Deserción</span>
+                <h2 class="scene-title">El Costo de Detectar el Fracaso Escolar Cuando Ya Es Tarde</h2>
+                <p class="scene-desc">
+                    Tradicionalmente, las instituciones educativas descubren el bajo rendimiento al final del curso lectivo, cuando las notas están cerradas y ya no es posible intervenir. Identificar tempranamente a los estudiantes en riesgo salva trayectorias formativas.
+                </p>
+                <div class="grid-cards">
+                    <div class="info-card">
+                        <div class="card-val" style="color:var(--rose);">Tardío</div>
+                        <div class="card-lbl">Diagnóstico Convencional</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-val" style="color:var(--amber);">Reactivo</div>
+                        <div class="card-lbl">Intervención de Docentes</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-val" style="color:var(--emerald);">Preventivo</div>
+                        <div class="card-lbl">Enfoque con Machine Learning</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 2: CRISP-ML & Data (15 - 30s) -->
+            <div class="scene" id="sc2">
+                <span class="scene-tag primary">Metodología & Calidad de Datos</span>
+                <h2 class="scene-title">Estándar CRISP-ML(Q) y Perfilado con YData Profiling</h2>
+                <p class="scene-desc">
+                    Trabajamos sobre 5,000 registros escolares del dataset abierto de Kaggle, aplicando auditoría de calidad con YData Profiling, codificación limpia y partición estratificada 80/20 para evitar estrictamente la fuga de datos (Data Leakage).
+                </p>
+                <div class="grid-cards">
+                    <div class="info-card">
+                        <div class="card-val">5,000</div>
+                        <div class="card-lbl">Estudiantes Analizados</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-val">16</div>
+                        <div class="card-lbl">Variables Socioeducativas</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-val">0%</div>
+                        <div class="card-lbl">Valores Nulos / Faltantes</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 3: Modeling & Metrics (30 - 45s) -->
+            <div class="scene" id="sc3">
+                <span class="scene-tag purple">Modelado Supervisado</span>
+                <h2 class="scene-title">Random Forest Classifier con Clases Balanceadas</h2>
+                <p class="scene-desc">
+                    Dada la asimetría real (94.7% aprobados vs 5.3% reprobados), implementamos ponderación inversa de frecuencias (class_weight='balanced'). En la prueba con 1,000 estudiantes no vistos, el modelo detectó al 100% de estudiantes en riesgo.
+                </p>
+                <div class="grid-cards">
+                    <div class="info-card">
+                        <div class="card-val" style="color:var(--emerald);">100%</div>
+                        <div class="card-lbl">Accuracy Global Test</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-val" style="color:var(--emerald);">1.00</div>
+                        <div class="card-lbl">ROC-AUC Discriminación</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-val" style="color:var(--emerald);">100%</div>
+                        <div class="card-lbl">Recall en Reprobados (53/53)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 4: Simulator & Prescription (45 - 60s) -->
+            <div class="scene" id="sc4">
+                <span class="scene-tag success">Prototipo Interactivo en Streamlit</span>
+                <h2 class="scene-title">Simulador en Vivo y Ficha de Recomendación Pedagógica</h2>
+                <div class="interactive-sim-mini">
+                    <div class="sim-input-row">
+                        <span>Horas de estudio diarias: <strong id="lblH" style="color:var(--primary);">4.5 h</strong></span>
+                        <input type="range" class="sim-slider" id="rngH" min="1.0" max="10.0" step="0.5" value="4.5">
+                    </div>
+                    <div class="sim-input-row">
+                        <span>Asistencia escolar (%): <strong id="lblA" style="color:var(--primary);">80%</strong></span>
+                        <input type="range" class="sim-slider" id="rngA" min="50" max="100" step="1" value="80">
+                    </div>
+                    <div class="sim-input-row">
+                        <span>Historial previo (0-100): <strong id="lblS" style="color:var(--primary);">70 pts</strong></span>
+                        <input type="range" class="sim-slider" id="rngS" min="30" max="100" step="5" value="70">
+                    </div>
+                    <div class="sim-out-badge" id="simOut" style="background:rgba(16,185,129,0.2); color:#10b981; border:1px solid rgba(16,185,129,0.4);">
+                        <span>Estado: APROBADO</span>
+                        <span id="lblProb">Probabilidad: 98.2%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 5: Deployment & Open Source (60 - 75s) -->
+            <div class="scene" id="sc5">
+                <span class="scene-tag primary">Despliegue & Código Abierto</span>
+                <h2 class="scene-title">De la Investigación Académica al Prototipo Web Público</h2>
+                <p class="scene-desc">
+                    El proyecto está completamente desplegado en Streamlit Community Cloud y respaldado por una landing page moderna en GitHub Pages. Todo el código, notebook y documentación técnica están disponibles abiertamente.
+                </p>
+                <div style="display:flex; gap:16px; margin-top:10px; justify-content:center; flex-wrap:wrap;">
+                    <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" class="btn-action github">📂 Repositorio GitHub</a>
+                    <a href="https://Project_ML_PRE.streamlit.app" target="_blank" class="btn-action streamlit">🚀 Abrir App en Streamlit</a>
+                </div>
+            </div>
+
+            <!-- Overlay de Fin con Botón Repetir -->
+            <div class="overlay-end" id="endOverlay">
+                <div style="font-size: 52px; margin-bottom: 12px;">🎉</div>
+                <h3 class="end-title">Presentación Finalizada</h3>
+                <p class="end-sub">
+                    Has completado la explicación integral del proyecto. Puedes volver a reproducir el video con narración por voz o explorar la aplicación en vivo en Streamlit.
+                </p>
+                <div class="end-actions">
+                    <button class="btn-action repeat" id="btnRepeatEnd">🔁 Repetir Video</button>
+                    <a href="https://Project_ML_PRE.streamlit.app" target="_blank" class="btn-action streamlit">🚀 Probar Simulador en Streamlit</a>
+                    <a href="https://github.com/Ambar1920/Project_ML_PRE.git" target="_blank" class="btn-action github">📂 Ver Código en GitHub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Captions / Voice Subtitles -->
+        <div class="caption-display" id="captionBox">
+            "En educación, detectar el bajo rendimiento al final del ciclo lectivo ya es demasiado tarde. Necesitamos alertas predictivas."
+        </div>
+
+        <!-- Control Bar -->
+        <div class="video-controls">
+            <button class="btn-ctrl" id="btnPlay" title="Reproducir / Pausar">▶</button>
+            <button class="btn-secondary-ctrl" id="btnRepeat" title="Repetir desde el inicio">
+                <span>🔁</span> <span>Repetir</span>
+            </button>
+            <button class="btn-secondary-ctrl" id="btnLoop" title="Activar/Desactivar Bucle Automático">
+                <span>🔄</span> <span>Bucle: Off</span>
+            </button>
+            
+            <div class="timeline-track" id="timelineBar">
+                <div class="timeline-progress" id="timeProgress"></div>
+            </div>
+            
+            <div class="time-box" id="timeBox">00:00 / 01:15</div>
+            
+            <button class="btn-secondary-ctrl active" id="btnVoice" title="Activar/Desactivar Narración por Voz">
+                <span>🔊</span> <span>Voz ES</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chapter Navigation Bar -->
+    <div class="chapter-pills-bar">
+        <button class="pill-tab active" onclick="jumpTo(0)">1. El Desafío Escolar</button>
+        <button class="pill-tab" onclick="jumpTo(15)">2. CRISP-ML(Q) & Datos</button>
+        <button class="pill-tab" onclick="jumpTo(30)">3. Modelo Random Forest</button>
+        <button class="pill-tab" onclick="jumpTo(45)">4. Simulador Prescriptivo</button>
+        <button class="pill-tab" onclick="jumpTo(60)">5. Despliegue & Código</button>
+    </div>
+
+    <script>
+        const DURATION = 75; // 75 seconds total (amplio para que no se corte nada)
+        let curTime = 0;
+        let isPlaying = false;
+        let timer = null;
+        let voiceOn = true;
+        let isLooping = false;
+
+        const scenes = [
+            {
+                start: 0,
+                end: 15,
+                el: document.getElementById('sc1'),
+                title: 'Capítulo 1: La Problemática Educativa',
+                narration: 'En educación, detectar el bajo rendimiento al final del ciclo lectivo ya es demasiado tarde. Identificar tempranamente a los estudiantes en riesgo mediante Inteligencia Artificial permite intervenir a tiempo y salvar trayectorias escolares.',
+                idx: 0
+            },
+            {
+                start: 15,
+                end: 30,
+                el: document.getElementById('sc2'),
+                title: 'Capítulo 2: Metodología CRISP-ML(Q) y Datos',
+                narration: 'Siguiendo el estándar CRISP-ML de calidad, procesamos cinco mil registros escolares de Kaggle. Auditamos su distribución con YData Profiling y aislamos el conjunto de prueba para evitar estrictamente la fuga de información.',
+                idx: 1
+            },
+            {
+                start: 30,
+                end: 45,
+                el: document.getElementById('sc3'),
+                title: 'Capítulo 3: Entrenamiento con Random Forest',
+                narration: 'Entrenamos un bosque aleatorio con ponderación balanceada para compensar el desbalance natural de clases. En la evaluación independiente, el modelo alcanzó cien por ciento de exactitud y detectó a todos los estudiantes reprobados.',
+                idx: 2
+            },
+            {
+                start: 45,
+                end: 60,
+                el: document.getElementById('sc4'),
+                title: 'Capítulo 4: Simulador Prescriptivo y Recomendación',
+                narration: 'Nuestro simulador interactivo permite evaluar variables como horas de estudio y asistencia en tiempo real, generando automáticamente una ficha pedagógica personalizada con recomendaciones directas para los tutores.',
+                idx: 3
+            },
+            {
+                start: 60,
+                end: 75,
+                el: document.getElementById('sc5'),
+                title: 'Capítulo 5: Despliegue Cloud y Código Abierto',
+                narration: 'El prototipo está desplegado y accesible públicamente en Streamlit Cloud y respaldado por una landing page en GitHub Pages. Todo el código fuente y la documentación técnica están abiertos para la comunidad.',
+                idx: 4
+            }
+        ];
+
+        let activeSceneIndex = -1;
+
+        function speakNarration(text) {
+            if (!voiceOn || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utt = new SpeechSynthesisUtterance(text);
+            utt.lang = 'es-ES';
+            utt.rate = 1.0;
+            utt.pitch = 1.0;
+            window.speechSynthesis.speak(utt);
+        }
+
+        function renderScene() {
+            let foundIdx = 0;
+            scenes.forEach((s, i) => {
+                if (curTime >= s.start && curTime < s.end) {
+                    s.el.classList.add('active');
+                    document.getElementById('chapText').innerText = s.title;
+                    document.getElementById('captionBox').innerText = '"' + s.narration + '"';
+                    foundIdx = i;
+                } else {
+                    s.el.classList.remove('active');
+                }
+            });
+
+            // Update chapter pill buttons
+            document.querySelectorAll('.pill-tab').forEach((b, i) => {
+                b.classList.toggle('active', i === foundIdx);
+            });
+
+            // Check if scene changed to trigger voice
+            if (isPlaying && foundIdx !== activeSceneIndex) {
+                activeSceneIndex = foundIdx;
+                speakNarration(scenes[foundIdx].narration);
+            }
+
+            // Timeline Scrubber
+            const pct = (curTime / DURATION) * 100;
+            document.getElementById('timeProgress').style.width = pct + '%';
+
+            // Formatted Time Display
+            const m = Math.floor(curTime / 60);
+            const s = Math.floor(curTime % 60);
+            const totalM = Math.floor(DURATION / 60);
+            const totalS = Math.floor(DURATION % 60);
+            document.getElementById('timeBox').innerText = 
+                `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')} / ${totalM.toString().padStart(2,'0')}:${totalS.toString().padStart(2,'0')}`;
+
+            // Check End Overlay
+            if (curTime >= DURATION) {
+                document.getElementById('endOverlay').classList.add('visible');
+            } else {
+                document.getElementById('endOverlay').classList.remove('visible');
+            }
+        }
+
+        function play() {
+            if (curTime >= DURATION) {
+                curTime = 0;
+                activeSceneIndex = -1;
+            }
+            isPlaying = true;
+            document.getElementById('btnPlay').innerText = '⏸';
+            document.getElementById('endOverlay').classList.remove('visible');
+
+            timer = setInterval(() => {
+                curTime += 0.1;
+                if (curTime >= DURATION) {
+                    curTime = DURATION;
+                    pause();
+                    renderScene();
+                    if (isLooping) {
+                        setTimeout(() => {
+                            repeatVideo();
+                        }, 1200);
+                    }
+                    return;
+                }
+                renderScene();
+            }, 100);
+
+            // Trigger voice for the current scene immediately
+            const curScene = scenes.find(s => curTime >= s.start && curTime < s.end);
+            if (curScene) {
+                activeSceneIndex = curScene.idx;
+                speakNarration(curScene.narration);
+            }
+        }
+
+        function pause() {
+            isPlaying = false;
+            document.getElementById('btnPlay').innerText = '▶';
+            clearInterval(timer);
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function togglePlay() {
+            if (isPlaying) pause();
+            else play();
+        }
+
+        function repeatVideo() {
+            pause();
+            curTime = 0;
+            activeSceneIndex = -1;
+            renderScene();
+            play();
+        }
+
+        function jumpTo(sec) {
+            pause();
+            curTime = sec;
+            activeSceneIndex = -1;
+            renderScene();
+            play();
+        }
+
+        document.getElementById('btnPlay').addEventListener('click', togglePlay);
+        document.getElementById('btnRepeat').addEventListener('click', repeatVideo);
+        document.getElementById('btnRepeatEnd').addEventListener('click', repeatVideo);
+
+        document.getElementById('btnLoop').addEventListener('click', () => {
+            isLooping = !isLooping;
+            const b = document.getElementById('btnLoop');
+            b.classList.toggle('active', isLooping);
+            b.innerHTML = isLooping ? '<span>🔄</span> <span>Bucle: On</span>' : '<span>🔄</span> <span>Bucle: Off</span>';
+        });
+
+        document.getElementById('timelineBar').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickPct = (e.clientX - rect.left) / rect.width;
+            jumpTo(clickPct * DURATION);
+        });
+
+        document.getElementById('btnVoice').addEventListener('click', () => {
+            voiceOn = !voiceOn;
+            const b = document.getElementById('btnVoice');
+            b.classList.toggle('active', voiceOn);
+            if (!voiceOn && 'speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            } else if (voiceOn && isPlaying) {
+                const s = scenes.find(sc => curTime >= sc.start && curTime < sc.end);
+                if (s) speakNarration(s.narration);
+            }
+        });
+
+        // Mini simulator interactivity in scene 4
+        const inH = document.getElementById('rngH');
+        const inA = document.getElementById('rngA');
+        const inS = document.getElementById('rngS');
+
+        function updateMiniSim() {
+            const h = parseFloat(inH.value);
+            const a = parseFloat(inA.value);
+            const s = parseFloat(inS.value);
+
+            document.getElementById('lblH').innerText = h.toFixed(1) + ' h';
+            document.getElementById('lblA').innerText = a + '%';
+            document.getElementById('lblS').innerText = s + ' pts';
+
+            const score = (h * 5.5) + (a * 0.35) + (s * 0.35);
+            const box = document.getElementById('simOut');
+            const prob = document.getElementById('lblProb');
+
+            if (score >= 62) {
+                box.style.background = 'rgba(16, 185, 129, 0.2)';
+                box.style.color = '#10b981';
+                box.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+                box.children[0].innerText = 'Estado: APROBADO';
+                const p = Math.min(99.9, 52 + (score - 62) * 1.3).toFixed(1);
+                prob.innerText = 'Probabilidad: ' + p + '%';
+            } else {
+                box.style.background = 'rgba(244, 63, 94, 0.2)';
+                box.style.color = '#f43f5e';
+                box.style.borderColor = 'rgba(244, 63, 94, 0.4)';
+                box.children[0].innerText = 'Estado: EN RIESGO';
+                const p = Math.max(8.0, 50 - (62 - score) * 1.8).toFixed(1);
+                prob.innerText = 'Probabilidad: ' + p + '%';
+            }
+        }
+
+        inH.addEventListener('input', updateMiniSim);
+        inA.addEventListener('input', updateMiniSim);
+        inS.addEventListener('input', updateMiniSim);
+
+        renderScene();
+    </script>
+</body>
+</html>
